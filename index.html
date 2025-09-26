@@ -25,6 +25,10 @@
       --badge-y: 0.725;
       /* Horizontal separation between the two badges */
       --badge-gap: min(24vw, 280px);
+      /* Rendered background height */
+      --fg-height: min(100vh, calc(var(--fg-ratio) * 100vw));
+      /* Badge size as fraction of bg height */
+      --badge-size: 0.08;
     }
     .hero-text {
       background: rgba(0, 0, 0, 0);
@@ -40,41 +44,34 @@
       top: calc(var(--badge-y) * min(100vh, calc(var(--fg-ratio) * 100vw)));
       left: 50%;
       transform: translateX(-50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: block;
       width: 100%;
       padding: 20px;
-      gap: 250px;
       z-index: 10;
     }
-    /* Wide screens: anchor badges at 20% and 80% */
-    @media (min-width: 681px) {
-      .store-strip {
-        display: block;
-      }
-      .store-strip a {
-        position: absolute;
-        top: 0;
-      }
-      .store-strip a:first-child {
-        left: 20%;
-        transform: translateX(-50%);
-      }
-      .store-strip a:last-child {
-        left: 80%;
-        transform: translateX(-50%);
-      }
+    /* Anchor badges at 20% and 80% horizontally */
+    .store-strip a {
+      position: absolute;
+      top: 0;
+    }
+    .store-strip a:first-child {
+      left: 20%;
+      transform: translateX(-50%);
+    }
+    .store-strip a:last-child {
+      left: 80%;
+      transform: translateX(-50%);
     }
     .store-strip img {
-      height: clamp(36px, 10vw, 64px);
+      height: calc(var(--badge-size) * var(--fg-height));
       width: auto;
     }
     .bottom-content {
       position: absolute;
-      top: calc(min(100vh, calc(var(--fg-ratio) * 100vw)));
+      top: var(--fg-height);
       left: 0;
       right: 0;
+      transform: none;
       margin-top: 0;
       z-index: 10;
     }
@@ -112,9 +109,6 @@
     @media (max-width: 900px) {
       .store-strip {
       }
-      .store-strip img {
-        height: clamp(36px, 12vw, 56px);
-      }
     }
     @media (max-width: 680px) {
       .hero {
@@ -127,19 +121,14 @@
         font-size: 1.6em;
       }
       .store-strip {
-        position: static;
-        top: auto;
-        left: auto;
-        transform: none;
-        flex-direction: column;
-        --badge-gap: 16px;
         padding: 12px 0;
       }
-      .store-strip img {
-        height: clamp(32px, 14vw, 52px);
-      }
       .bottom-content {
-        position: static;
+        position: absolute;
+        top: var(--fg-height);
+        left: 0;
+        right: 0;
+        transform: none;
         margin-top: 0;
       }
       .features {
